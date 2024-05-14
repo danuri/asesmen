@@ -2,7 +2,7 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 $config['site_name'] = 'Assessment Center';
-$config['instansi'] = 'B K K B N';
+$config['instansi'] = 'Kementerian Agama RI';
 
 /*
 |--------------------------------------------------------------------------
@@ -26,7 +26,7 @@ $config['instansi'] = 'B K K B N';
 | a PHP script and you can easily do that on your own.
 |
 */
-$config['base_url'] = 'http://sapa-ac.bkkbn.go.id';
+$config['base_url'] = 'https://asesmen.kemenag.go.id';
 
 #$config['base_url'] = ((isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == "on") ? "https" : "http");
 #$config['base_url'] .= "://" . $_SERVER['HTTP_HOST'];
