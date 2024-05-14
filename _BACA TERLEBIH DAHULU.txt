@@ -1,0 +1,37 @@
+
+=============================================================================
+ALUR APLIKASI
+=============================================================================
+1. Set Nama Penyelenggaraan kegiatan Assessment pada menu referensi -> kegiatan
+2. Import data peserta atau input manual (sebagai data awalan) pada menu referensi -> Function UI -> Import peserta
+3. Peserta diwajibkan registrasi terlebih dahulu pada halaman front end
+4. Pantau registrasi peserta pada menu Pra-assessment -> pantau registrasi
+5. jika sudah/berhasil registrasi aktif pada menu referensi -> Function UI -> Sync Button -> update password
+6. Aktifkan peserta pada menu administrasi -> pengguna
+7. Buat jadwal Ujian pada menu -> Pelaksanaan
+8. login peserta menggunakan nip 
+9. Pantau ujian pada menu -> Pelaksanaan
+10. Buat hasil laporan pada menu -> Penilaian
+
+
+=============================================================================
+LAVEL LOGIN
+=============================================================================
+
+ADMIN CMS
+username : admin_cms
+password : admin_cms
+
+ADMIN APLIKASI
+username : admin_apl
+password : admin_apl
+
+ PESERTA
+username : {nip pegawai tanpa spasi}
+password : {nip pegawai tanpa spasi}
+
+
+=============================================================================
+
+Regards,
+whaddupsapaing - Gregs
