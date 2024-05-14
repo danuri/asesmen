@@ -2,9 +2,9 @@
 class M_dashboard extends CI_Model{
 	function __construct(){
 		parent::__construct();
-		
+
 		$this->db2 = $this->load->database('db_sjt', TRUE);
-		$this->db3 = $this->load->database('db_simsdm', TRUE);
+		// $this->db3 = $this->load->database('db_simsdm', TRUE);
 	}
 //////////////////////////////////////////////////////////////////////////////////
 	function hitung_kegiatan(){
@@ -14,51 +14,51 @@ class M_dashboard extends CI_Model{
 										(SELECT sum(COUNT(IF(a.jenis_kegiatan LIKE 'Internal', 1, NULL))+COUNT(IF(a.jenis_kegiatan LIKE 'Kerjasama', 1, NULL)))) as jml_keg
 										FROM kegiatan AS a GROUP BY a.tahun
 									");
-		return $hasil;							
+		return $hasil;
 	}
-	
+
 	function data_kegiatan(){
 		$hasil	=	$this->db->query("
-										SELECT b.*, a.*, COUNT(a.id_peserta) as jml FROM data_peserta AS a INNER JOIN kegiatan AS b ON a.kd_kegiatan = b.kd_kegiatan GROUP BY b.id_kegiatan ORDER BY a.id_kegiatan DESC" 
+										SELECT b.*, a.*, COUNT(a.id_peserta) as jml FROM data_peserta AS a INNER JOIN kegiatan AS b ON a.kd_kegiatan = b.kd_kegiatan GROUP BY b.id_kegiatan ORDER BY a.id_kegiatan DESC"
 									);
-		return $hasil->result();	
+		return $hasil->result();
 	}
-	
+
 	function data_kuisioner(){
 		$hasil	=	$this->db->query("
-										SELECT * FROM hasil_kuisi ORDER BY id_kuisi DESC " 
+										SELECT * FROM hasil_kuisi ORDER BY id_kuisi DESC "
 									);
-		return $hasil->result();	
+		return $hasil->result();
 	}
-	
-	
-	
+
+
+
 	function hitung_peserta_perkegiatan(){
 		$hasil	=	$this->db->query("
 										SELECT a.tahun, count(if(a.kd_kegiatan like '01.%',1,null)) as psrt_ktng, count(if(a.kd_kegiatan like '02.%',1,null)) as psrt_ext,
 										(SELECT sum(count(if(a.kd_kegiatan like '01.%',1,null))+count(if(a.kd_kegiatan like '02.%',1,null)))) as jml_psrt
 										FROM data_peserta AS a GROUP BY a.tahun
 									");
-		return $hasil;							
+		return $hasil;
 	}
-	
+
 	function hitung_peserta(){
 		$peserta	=	$this->db->query("
 										select (select count(kd_kegiatan) from data_peserta where kd_kegiatan like '01.%') as jml_kotang,(select count(kd_kegiatan) from data_peserta where kd_kegiatan like '02.%') as jml_luar, (select count(kd_kegiatan) from data_peserta where kd_kegiatan like '03.%') as jml_masuk, (select count(id_personil) from lembaga) as jml_personil;
 										");
-		return $peserta;	
+		return $peserta;
 	}
 
 	function hitung_rekom_internal(){
 		$rekom	=	$this->db->query("
-										select 
+										select
                                         (select count(rekom) from hasil_assessment As a INNER JOIN data_peserta AS b ON b.nip = a.nip INNER JOIN kegiatan AS c ON b.kd_kegiatan = c.kd_kegiatan where rekom like 'Optimal' AND c.kd_kegiatan LIKE '01.%') as optimal,
                                         (select count(rekom) from hasil_assessment As a INNER JOIN data_peserta AS b ON b.nip = a.nip INNER JOIN kegiatan AS c ON b.kd_kegiatan = c.kd_kegiatan where rekom like 'Cukup Optimal' AND c.kd_kegiatan LIKE '01.%') as cukup,
                                         (select count(rekom) from hasil_assessment As a INNER JOIN data_peserta AS b ON b.nip = a.nip INNER JOIN kegiatan AS c ON b.kd_kegiatan = c.kd_kegiatan where rekom like 'Kurang Optimal' AND c.kd_kegiatan LIKE '01.%') as kurang;
 										");
-		return $rekom;	
+		return $rekom;
 	}
-	
+
 	function detail_rekom_internal(){
 		$detail_rekom	=	$this->db->query("
 										select
@@ -87,7 +87,7 @@ class M_dashboard extends CI_Model{
                                         (select count(rekom) from hasil_assessment As a INNER JOIN data_peserta AS b ON b.nip = a.nip INNER JOIN kegiatan AS c ON b.kd_kegiatan = c.kd_kegiatan where rekom like 'Kurang Optimal' AND  b.jenjang like 'JF Terampil' AND c.kd_kegiatan LIKE '01.%') as krg_terampil,
                                         (select count(rekom) from hasil_assessment As a INNER JOIN data_peserta AS b ON b.nip = a.nip INNER JOIN kegiatan AS c ON b.kd_kegiatan = c.kd_kegiatan where rekom like 'Kurang Optimal' AND  b.jenjang like 'Pelaksana' AND c.kd_kegiatan LIKE '01.%') as krg_satu;
 										");
-		return $detail_rekom;	
+		return $detail_rekom;
 	}
 
 	function hitung_komp_int(){
@@ -119,7 +119,7 @@ class M_dashboard extends CI_Model{
 										(select count(nilai_int_komp) from komp_nilai As a INNER JOIN data_peserta AS b ON b.nip = a.nip INNER JOIN kegiatan AS c ON b.kd_kegiatan = c.kd_kegiatan where nilai_int_komp = 0 AND b.jenjang like 'JF Terampil' AND c.kd_kegiatan LIKE '01.%') as terampil_lev_1,
 										(select count(nilai_int_komp) from komp_nilai As a INNER JOIN data_peserta AS b ON b.nip = a.nip INNER JOIN kegiatan AS c ON b.kd_kegiatan = c.kd_kegiatan where nilai_int_komp = 0 AND b.jenjang like 'Pelaksana' AND c.kd_kegiatan LIKE '01.%') as satu_lev_1;
 										");
-		return $kompetensi;	
+		return $kompetensi;
 	}
 
 	function hitung_komp_jptp(){
@@ -162,7 +162,7 @@ class M_dashboard extends CI_Model{
 									(select count(nilai_pb_komp) from komp_nilai As a INNER JOIN data_peserta AS b ON b.nip = a.nip INNER JOIN kegiatan AS c ON b.kd_kegiatan = c.kd_kegiatan where nilai_pb_komp = 2 AND b.jenjang like 'JPT Pratama' OR 'JF Madya' AND c.kd_kegiatan LIKE '01.%') as pb_3_4,
 									(select count(nilai_pb_komp) from komp_nilai As a INNER JOIN data_peserta AS b ON b.nip = a.nip INNER JOIN kegiatan AS c ON b.kd_kegiatan = c.kd_kegiatan where nilai_pb_komp = 3 AND b.jenjang like 'JPT Pratama' OR 'JF Madya' AND c.kd_kegiatan LIKE '01.%') as pb_4;
 										");
-		return $kompetensi;	
+		return $kompetensi;
 	}
 
 	function hitung_komp_adm(){
@@ -196,7 +196,7 @@ class M_dashboard extends CI_Model{
 									(select count(nilai_pb_komp) from komp_nilai As a INNER JOIN data_peserta AS b ON b.nip = a.nip INNER JOIN kegiatan AS c ON b.kd_kegiatan = c.kd_kegiatan where nilai_pb_komp = 1 AND b.jenjang like 'Administrator' OR 'JF Muda' AND c.kd_kegiatan LIKE '01.%') as pb_2_3,
 									(select count(nilai_pb_komp) from komp_nilai As a INNER JOIN data_peserta AS b ON b.nip = a.nip INNER JOIN kegiatan AS c ON b.kd_kegiatan = c.kd_kegiatan where nilai_pb_komp = 2 AND b.jenjang like 'Administrator' OR 'JF Muda' AND c.kd_kegiatan LIKE '01.%') as pb_3;
 										");
-		return $kompetensi;	
+		return $kompetensi;
 	}
 
 	function hitung_komp_pengawas(){
@@ -221,7 +221,7 @@ class M_dashboard extends CI_Model{
 									(select count(nilai_pb_komp) from komp_nilai As a INNER JOIN data_peserta AS b ON b.nip = a.nip INNER JOIN kegiatan AS c ON b.kd_kegiatan = c.kd_kegiatan where nilai_pb_komp = 0 AND b.jenjang like 'Pengawas' OR 'JF Pertama' AND c.kd_kegiatan LIKE '01.%') as pb_1_2,
 									(select count(nilai_pb_komp) from komp_nilai As a INNER JOIN data_peserta AS b ON b.nip = a.nip INNER JOIN kegiatan AS c ON b.kd_kegiatan = c.kd_kegiatan where nilai_pb_komp = 1 AND b.jenjang like 'Pengawas' OR 'JF Pertama' AND c.kd_kegiatan LIKE '01.%') as pb_2;
 										");
-		return $kompetensi;	
+		return $kompetensi;
 	}
 
 	function hitung_komp_pelaksana(){
@@ -237,7 +237,7 @@ class M_dashboard extends CI_Model{
 									(select count(nilai_pk_komp) from komp_nilai As a INNER JOIN data_peserta AS b ON b.nip = a.nip INNER JOIN kegiatan AS c ON b.kd_kegiatan = c.kd_kegiatan where nilai_pk_komp = 0 AND b.jenjang like 'Pelaksana' OR 'JF Terampil' AND c.kd_kegiatan LIKE '01.%') as pk_1,
 									(select count(nilai_pb_komp) from komp_nilai As a INNER JOIN data_peserta AS b ON b.nip = a.nip INNER JOIN kegiatan AS c ON b.kd_kegiatan = c.kd_kegiatan where nilai_pb_komp = 0 AND b.jenjang like 'Pelaksana' OR 'JF Terampil' AND c.kd_kegiatan LIKE '01.%') as pb_1
 										");
-		return $kompetensi;	
+		return $kompetensi;
 	}
 
 	function get_chart(){
@@ -251,13 +251,13 @@ class M_dashboard extends CI_Model{
       //$result = $this->db->get('chart');
       return $hasil;
 	}
-	
+
 	function get_chart_seleksi(){
       $this->db->select('tahun,psrt_ktng ,psrt_ext');
       $result = $this->db->get('chart');
       return $result;
 	}
-	
+
 	function get_tahun(){
 		$hasil = $this->db->query(" SELECT tahun FROM kegiatan GROUP BY tahun ORDER BY tahun DESC ");
 		return $hasil;
@@ -269,21 +269,21 @@ class M_dashboard extends CI_Model{
 	}
 
 	function get_jenjang(){
-		$hasil = $this->db->query(" 
+		$hasil = $this->db->query("
 									SELECT a.tahun, COUNT(IF(a.jenjang like 'JPT Madya', 1, NULL)) 'madya', COUNT(IF(a.jenjang like 'JPT Pratama', 1, NULL)) 'pratama', COUNT(IF(a.jenjang like 'Administrator', 1, NULL)) 'administrator',
 									COUNT(IF(a.jenjang like 'Pengawas', 1, NULL)) 'pengawas', COUNT(IF(a.jenjang like 'JF Madya', 1, NULL)) 'jf_Madya', COUNT(IF(a.jenjang like 'JF Muda', 1, NULL)) 'jf_Muda',
 									COUNT(IF(a.jenjang like 'JF Pertama', 1, NULL)) 'jf_Pertama', COUNT(IF(a.jenjang like 'JF Terampil', 1, NULL)) 'jf_Terampil', COUNT(IF(a.jenjang like 'Pelaksana', 1, NULL)) 'pelaksana',
 									(SELECT sum(COUNT(IF(a.jenjang like 'JPT Madya', 1, NULL))+COUNT(IF(a.jenjang like 'JPT Pratama', 1, NULL))+COUNT(IF(a.jenjang like 'Administrator', 1, NULL))+
 									COUNT(IF(a.jenjang like 'Pengawas', 1, NULL))+COUNT(IF(a.jenjang like 'JF Madya', 1, NULL))+COUNT(IF(a.jenjang like 'JF Muda', 1, NULL))+COUNT(IF(a.jenjang like 'JF Pertama', 1, NULL))+COUNT(IF(a.jenjang like 'JF Terampil', 1, NULL))+
-									COUNT(IF(a.jenjang like 'Pelaksana', 1, NULL))) ) as jml FROM data_peserta AS a GROUP BY a.tahun								
+									COUNT(IF(a.jenjang like 'Pelaksana', 1, NULL))) ) as jml FROM data_peserta AS a GROUP BY a.tahun
 								");
 		return $hasil;
 	}
 
 	function kuisi_satu_lima(){
 		$hasil	=	$this->db->query("
-									SELECT 
-									distinct(substr(a.tgl_assessment,1,4)) as tgl, 
+									SELECT
+									distinct(substr(a.tgl_assessment,1,4)) as tgl,
 									COUNT(IF(a.kuisi_1 LIKE 'Tidak Jelas', 1, NULL)) as tj_1,
 									COUNT(IF(a.kuisi_1 LIKE 'Kurang Jelas', 1, NULL)) as kj_1,
 									COUNT(IF(a.kuisi_1 LIKE 'Jelas', 1, NULL)) as j_1,
@@ -309,11 +309,11 @@ class M_dashboard extends CI_Model{
 									COUNT(IF(a.kuisi_5 LIKE 'Cukup', 1, NULL)) as c_1,
 									COUNT(IF(a.kuisi_5 LIKE 'Sangat Cukup', 1, NULL)) as sc_1,
 									(SELECT sum(COUNT(IF(a.kuisi_5 LIKE 'Tidak Cukup', 1, NULL))+COUNT(IF(a.kuisi_5 LIKE 'Kurang Cukup', 1, NULL))+COUNT(IF(a.kuisi_5 LIKE 'Cukup', 1, NULL))+COUNT(IF(a.kuisi_5 LIKE 'Sangat Cukup', 1, NULL)))) as jml_kuisi_5
-									FROM hasil_kuisi AS a GROUP BY tgl		
+									FROM hasil_kuisi AS a GROUP BY tgl
 									");
-		return $hasil;							
+		return $hasil;
 	}
-	
+
 	function chart_responden(){
 		$responden	=	$this->db->query("
 										select
@@ -323,9 +323,9 @@ class M_dashboard extends CI_Model{
 										(select count(jabatan) from hasil_kuisi As a WHERE jabatan LIKE 'Fungsional') as fungsional,
 										(select count(jabatan) from hasil_kuisi As a WHERE jabatan LIKE 'Pelaksana') as pelaksana
 									");
-		return $responden;	
+		return $responden;
 	}
-	
+
 	function chart_satu(){
 		$rekom	=	$this->db->query("
 										select
@@ -336,9 +336,9 @@ class M_dashboard extends CI_Model{
 										(select count(kuisi_1) FROM hasil_kuisi WHERE kuisi_1 LIKE 'Sangat Jelas') as sj_1
 										FROM hasil_kuisi GROUP BY tgl
 										");
-		return $rekom;	
+		return $rekom;
 	}
-	
+
 	function chart_dua(){
 		$rekom	=	$this->db->query("
 										select
@@ -349,9 +349,9 @@ class M_dashboard extends CI_Model{
 										(select count(kuisi_2) FROM hasil_kuisi WHERE kuisi_2 LIKE 'Sangat Mudah') as sm_1
 										FROM hasil_kuisi GROUP BY tgl
 										");
-		return $rekom;	
+		return $rekom;
 	}
-	
+
 	function chart_tiga(){
 		$rekom	=	$this->db->query("
 										select
@@ -362,33 +362,33 @@ class M_dashboard extends CI_Model{
 										(select count(kuisi_3) FROM hasil_kuisi WHERE kuisi_3 LIKE 'Sangat Mudah') as sm_2
 										FROM hasil_kuisi GROUP BY tgl
 										");
-		return $rekom;	
+		return $rekom;
 	}
-	
-	
-	
+
+
+
 /*==========================================================
 SJT
-==========================================================*/	
-	
+==========================================================*/
+
     function total_hari_ini(){
 		$hari_ini	=	$this->db2->query("SELECT COUNT(ID) AS total_hari_ini FROM respondent WHERE created_at >= (NOW() - INTERVAL 1 DAY)");
-		return $hari_ini;			
+		return $hari_ini;
     }
 
     function total_minggu_ini(){
 		$minggu_ini	=	$this->db2->query("SELECT COUNT(ID) AS total_minggu_ini FROM respondent WHERE created_at >= (NOW() - INTERVAL 7 DAY)");
-		return $minggu_ini;			
+		return $minggu_ini;
     }
 
     function total_bulan_ini(){
 		$bulan_ini	=	$this->db2->query("SELECT COUNT(ID) AS total_bulan_ini FROM respondent WHERE created_at >= (NOW() - INTERVAL 1 MONTH)");
-		return $bulan_ini;			
+		return $bulan_ini;
     }
 
     function total_semua(){
 		$bulan_ini	=	$this->db2->query("SELECT COUNT(ID) AS total_semua FROM respondent");
-		return $bulan_ini;			
+		return $bulan_ini;
     }
 
     function jabatan(){
@@ -400,7 +400,7 @@ SJT
             ( SELECT COUNT( id ) FROM respondent WHERE jenjang_jabatan = 'Ahli Pertama' ) AS total_ahli_pertama,
             ( SELECT COUNT( id ) FROM respondent WHERE jenjang_jabatan = 'Mahir' ) AS total_mahir,
             ( SELECT COUNT( id ) FROM respondent WHERE jenjang_jabatan = 'Ahli Muda' ) AS total_ahli_muda,
-            ( SELECT COUNT( id ) FROM respondent WHERE jenjang_jabatan = 'Penyelia' ) AS total_penyelia 
+            ( SELECT COUNT( id ) FROM respondent WHERE jenjang_jabatan = 'Penyelia' ) AS total_penyelia
         FROM
         DUAL")->row_array();
     }
@@ -420,13 +420,13 @@ SJT
         DUAL")->row_array();
     }
 
-    
+
     function jml_pusat(){
 		$pusat	=	$this->db2->query("
 										SELECT a.id, a.unit_kerja_pusat, COUNT(b.id) as jml FROM tb_unit_kerja_pusat AS a
 										LEFT JOIN respondent AS b ON a.unit_kerja_pusat = b.unit_kerja GROUP BY a.id, a.unit_kerja_pusat
 										");
-		return $pusat;			
+		return $pusat;
     }
 
     function jml_perwakilan(){
@@ -434,19 +434,19 @@ SJT
 										SELECT a.id, a.unit_kerja_perwakilan, COUNT(b.id) as jml FROM tb_unit_kerja_perwakilan AS a
 										LEFT JOIN respondent AS b  ON a.unit_kerja_perwakilan = b.unit_kerja GROUP BY a.id, a.unit_kerja_perwakilan
 										");
-		return $perwakilan;			
+		return $perwakilan;
     }
-	
+
 	function get_peta(){
 		$hasil	=	$this->db2->query("
 										SELECT a.id, a.unit_kerja_perwakilan, COUNT(b.id) AS jml, c.propinsi, c.js_code
 										FROM tb_unit_kerja_perwakilan AS a LEFT JOIN respondent AS b ON a.unit_kerja_perwakilan = b.unit_kerja
-										LEFT JOIN reff_prop AS c ON c.id_perwakilan = a.id GROUP BY a.id, a.unit_kerja_perwakilan		
+										LEFT JOIN reff_prop AS c ON c.id_perwakilan = a.id GROUP BY a.id, a.unit_kerja_perwakilan
 									");
-		$result = $hasil->result_array();							
+		$result = $hasil->result_array();
 		return $result;
 	}
-	
+
 	function cetak_lap_hasil($id_kegiatan){
 		$hasil	=	$this->db->query("
 									SELECT DISTINCT
@@ -552,7 +552,7 @@ SJT
 									(IF(e.aspek_komp9 >2 AND e.aspek_komp9 <=3, 'X', '')) AS as9kom3_x,
 									(IF(e.aspek_komp9 >3 AND e.aspek_komp9 <=4, 'X', '')) AS as9kom4_x,
 									(IF(e.aspek_komp9 >=5, 'X', '')) AS as9kom5_x,
-									
+
 									h.nama_personil,
 									h.nip_personil
 
@@ -568,8 +568,8 @@ SJT
 									WHERE
 									c.id_kegiatan = '$id_kegiatan';
 									");
-		return $hasil->result();	
+		return $hasil->result();
 	}
 
-	
+
 }
