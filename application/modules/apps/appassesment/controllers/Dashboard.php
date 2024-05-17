@@ -30,14 +30,14 @@ class Dashboard extends MX_Controller {
 		$data['rekap_jenjang'] 		= $this->M_dashboard->get_jenjang();
 		$data['hitung_peserta']		= $this->M_dashboard->hitung_peserta_perkegiatan();
 
-		$data['total_hari_ini'] 	= $this->M_dashboard->total_hari_ini();
-        $data['total_minggu_ini'] 	= $this->M_dashboard->total_minggu_ini();
-        $data['total_bulan_ini'] 	= $this->M_dashboard->total_bulan_ini();
-        $data['total_semua'] 		= $this->M_dashboard->total_semua();
-        $data['jml_pusat'] 			= $this->M_dashboard->jml_pusat();
+		// $data['total_hari_ini'] 	= $this->M_dashboard->total_hari_ini();
+        // $data['total_minggu_ini'] 	= $this->M_dashboard->total_minggu_ini();
+        // $data['total_bulan_ini'] 	= $this->M_dashboard->total_bulan_ini();
+        // $data['total_semua'] 		= $this->M_dashboard->total_semua();
+        // $data['jml_pusat'] 			= $this->M_dashboard->jml_pusat();
         // $data['jml_perwakilan']		= $this->M_dashboard->jml_perwakilan();
-        $data['jabatan'] 			= $this->M_dashboard->jabatan();
-        $data['kompetensi'] 		= $this->M_dashboard->kompetensi();
+        // $data['jabatan'] 			= $this->M_dashboard->jabatan();
+        // $data['kompetensi'] 		= $this->M_dashboard->kompetensi();
 
 		$this->load->view('dashboard/dashboard_penyelenggaraan',$data);
   }
