@@ -11,8 +11,12 @@ class Dashboard extends MX_Controller {
 		$this->load->library('excel');
   }
 
-
-	function index()  {
+  public function index()
+  {
+    $this->load->view('dashboard/dashboard');
+  }
+  
+	function indexx()  {
 		/*
 		$x 							= $this->M_dashboard->kompetensi()->result();
 		$data['chart_kompetensi'] 	= json_encode($x);
