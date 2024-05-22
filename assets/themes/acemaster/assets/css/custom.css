@@ -1,0 +1,18 @@
+.navbar {
+    background: #51721c;
+}
+
+.panel-default>.panel-heading {
+    color: #fff;
+    background: #59712c;
+    border-color: #ddd;
+}
+
+.no-skin .nav-list li.active>a:after {
+    border-right-color: #5c791d;
+}
+
+.no-skin .nav-list>li.active>a {
+    font-weight: 700;
+    color: #59712c;
+}

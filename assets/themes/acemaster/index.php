@@ -5,7 +5,7 @@
 		<meta charset="utf-8" />
 	    <title><?=$nama;?> - <?=$slogan;?></title>
 		<link rel="shortcut icon" href="<?=base_url();?>assets/media/upload/bawaan/logo_bkkbn.png" type="image/x-icon" />
-		
+
 		<meta name="description" content="overview &amp; stats" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
 
@@ -47,14 +47,15 @@
 		<script src="<?php echo base_url() ?>assets/js/plugins/morris/raphael.min.js"></script>
 		<script src="<?php echo base_url() ?>assets/js/plugins/morris/morris.js"></script>
 		<script src="<?php echo base_url() ?>assets/js/plugins/morris/morris.min.js"></script>
-		
+
 		<!-- DataTables Responsive CSS -->
 		<link href="<?=base_url('assets/css/datatables-responsive/dataTables.responsive.css');?>" rel="stylesheet">
 		<!-- DataTable Button CSS -->
 		<link href="<?=base_url('assets/css/datatables/css/buttons.dataTables.min.css');?>" rel="stylesheet">
 		<!-- DataTables CSS -->
 		<link href="<?=base_url('assets/css/datatables-plugins/dataTables.bootstrap.css');?>" rel="stylesheet">
-		
+		<link rel="stylesheet" href="<?=base_url('assets/themes/acemaster/');?>/assets/css/custom.css" />
+
 		<!-- HTML5shiv and Respond.js for IE8 to support HTML5 elements and media queries -->
 		<!--[if lte IE 8]>
 		<script src="assets/js/html5shiv.min.js"></script>
@@ -144,9 +145,9 @@ function recSidebar($nav,$akv) {
 				<i class="ace-icon fa fa-angle-double-up icon-only bigger-110"></i>
 			</a>
 		</div><!-- /.main-container -->
-		
-		
-		
+
+
+
 	<!-- DataTables JavaScript -->
 	<script src="<?php echo base_url() ?>assets/css/datatables/js/jquery.dataTables.min.js"></script>
 	<script src="<?php echo base_url() ?>assets/css/datatables-plugins/dataTables.bootstrap.min.js"></script>
@@ -158,7 +159,7 @@ function recSidebar($nav,$akv) {
 	<script src="<?php echo base_url() ?>assets/css/datatables/js/vfs_fonts.js"></script>
 	<script src="<?php echo base_url() ?>assets/css/datatables/js/buttons.html5.min.js"></script>
 	<script src="<?php echo base_url() ?>assets/css/datatables/js/buttons.print.min.js"></script>
-	
+
     <!-- morris char-->
     <script src="<?php echo base_url() ?>assets/js/plugins/morris/raphael.min.js"></script>
     <script src="<?php echo base_url() ?>assets/js/plugins/morris/morris.js"></script>
@@ -168,7 +169,7 @@ function recSidebar($nav,$akv) {
 </html>
 
 
-<script type="text/javascript">	
+<script type="text/javascript">
 
 	$(document).ready(function () {
         $('#MyDataTables').DataTable({
@@ -180,5 +181,5 @@ function recSidebar($nav,$akv) {
             ]
         });
     });
-	
+
 </script>
